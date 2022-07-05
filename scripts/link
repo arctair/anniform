@@ -1,0 +1,8 @@
+#!/bin/zsh
+if [ -e ~/.factorio/mods/anniform ] ; then
+  echo "~/.factorio/mods/anniform -> `readlink -f ~/.factorio/mods/anniform` already exists" 1>&2
+  exit 1
+else
+  ln -s ~+/source ~/.factorio/mods/anniform
+  echo "~/.factorio/mods/anniform -> `readlink -f ~/.factorio/mods/anniform` created" 1>&2
+fi
