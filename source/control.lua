@@ -16,8 +16,8 @@ function on_tick(event)
 
     local count = get_item_count(global.stone_annihilation_nodes, "stone")
     local transportBeltCount = get_item_count(global.stone_transport_nodes, "transport-belt")
-    local transportUnitCount = transportBeltCount * transportUnitsPerBelt + global.remaining_transport_units
-    local formationCount = math.min(count, transportUnitCount * stackSize / transportUnitsPerBelt)
+    local budget = transportBeltCount * transportUnitsPerBelt + global.remaining_transport_units
+    local formationCount = math.min(count, budget * stackSize / transportUnitsPerBelt)
     local actualFormationCount = insert(global.stone_formation_nodes, "stone", formationCount)
     remove(global.stone_annihilation_nodes, "stone", actualFormationCount)
 
