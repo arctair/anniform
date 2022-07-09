@@ -1,6 +1,7 @@
 local stoneChestEntity = table.deepcopy(data.raw["container"]["wooden-chest"])
 stoneChestEntity.name = "stone-chest"
 stoneChestEntity.inventory_size = 1
+stoneChestEntity.minable.result = "stone-chest"
 
 local stoneChestItem = table.deepcopy(data.raw["item"]["wooden-chest"])
 stoneChestItem.name = "stone-chest"
@@ -16,6 +17,7 @@ data:extend{stoneChestEntity, stoneChestItem, stoneChestRecipe}
 
 local annihilationNodeEntity = table.deepcopy(data.raw["container"]["stone-chest"])
 annihilationNodeEntity.name = "stone-annihilation-node"
+annihilationNodeEntity.minable.result = "stone-annihilation-node"
 
 local annihilationNodeItem = table.deepcopy(data.raw["item"]["stone-chest"])
 annihilationNodeItem.name = "stone-annihilation-node"
@@ -30,6 +32,7 @@ data:extend{ annihilationNodeEntity, annihilationNodeItem, annihilationNodeRecip
 
 local formationNodeEntity = table.deepcopy(data.raw["container"]["stone-chest"])
 formationNodeEntity.name = "stone-formation-node"
+formationNodeEntity.minable.result = "stone-formation-node"
 
 local formationNodeItem = table.deepcopy(data.raw["item"]["stone-chest"])
 formationNodeItem.name = "stone-formation-node"
