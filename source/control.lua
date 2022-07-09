@@ -1,10 +1,3 @@
-script.on_configuration_changed(function(configuration_changed_data)
-    global.stone_annihilation_nodes = global.stone_annihilation_nodes or {}
-    global.stone_formation_nodes = global.stone_formation_nodes or {}
-    global.stone_transport_nodes = global.stone_transport_nodes or {}
-    global.remaining_transport_units = global.remaining_transport_units or 0
-end)
-
 function on_stone_container_built(event)
     target = nil
     if event.created_entity.name == "stone-annihilation-node" then
@@ -75,6 +68,13 @@ function remove(containers, name, tryCount)
         end
     end
 end
+
+script.on_configuration_changed(function(configuration_changed_data)
+    global.stone_annihilation_nodes = global.stone_annihilation_nodes or {}
+    global.stone_formation_nodes = global.stone_formation_nodes or {}
+    global.stone_transport_nodes = global.stone_transport_nodes or {}
+    global.remaining_transport_units = global.remaining_transport_units or 0
+end)
 
 script.on_event(
         defines.events.on_built_entity,
