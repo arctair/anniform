@@ -2,7 +2,7 @@ script.on_configuration_changed(function(configuration_changed_data)
     global.stone_annihilation_nodes = global.stone_annihilation_nodes or {}
     global.stone_formation_nodes = global.stone_formation_nodes or {}
     global.stone_transport_nodes = global.stone_transport_nodes or {}
-    global.transport_belt_remainder = global.transport_belt_remainder or 0
+    global.remaining_transport_units = global.remaining_transport_units or 0
 end)
 
 function on_stone_container_built(event)
@@ -18,18 +18,20 @@ function on_stone_container_built(event)
 end
 
 function on_tick(event)
-    local maxStackSize = 50
+    local stackSize = 50
+    local transportUnitsPerBelt = 200
 
-    local stoneCount = get_item_count(global.stone_annihilation_nodes, "stone")
-    local transportBeltCount = get_item_count(global.stone_transport_nodes, "transport-belt") + global.transport_belt_remainder
-    local stoneFormationCount = math.min(stoneCount, math.floor(transportBeltCount * maxStackSize))
-    local actualStoneFormationCount = insert(global.stone_formation_nodes, "stone", stoneFormationCount)
-    remove(global.stone_annihilation_nodes, "stone", actualStoneFormationCount)
+    local count = get_item_count(global.stone_annihilation_nodes, "stone")
+    local transportBeltCount = get_item_count(global.stone_transport_nodes, "transport-belt")
+    local transportUnitCount = transportBeltCount * transportUnitsPerBelt + global.remaining_transport_units
+    local formationCount = math.min(count, transportUnitCount * stackSize / transportUnitsPerBelt)
+    local actualFormationCount = insert(global.stone_formation_nodes, "stone", formationCount)
+    remove(global.stone_annihilation_nodes, "stone", actualFormationCount)
 
-    local transportBeltCost = actualStoneFormationCount / maxStackSize - global.transport_belt_remainder
-    local transportBeltCostCeil = math.ceil(transportBeltCost)
-    global.transport_belt_remainder = transportBeltCostCeil - transportBeltCost
-    remove(global.stone_transport_nodes, "transport-belt", transportBeltCostCeil)
+    local cost = actualFormationCount * transportUnitsPerBelt / stackSize - global.remaining_transport_units
+    local annihilationCount = math.ceil(cost / transportUnitsPerBelt)
+    global.remaining_transport_units = annihilationCount * transportUnitsPerBelt - cost
+    remove(global.stone_transport_nodes, "transport-belt", annihilationCount)
 end
 
 function get_item_count(containers, name)
