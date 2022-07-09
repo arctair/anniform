@@ -16,8 +16,10 @@ end
 function on_tick(event)
     local pendingInsert = 0
     for _, entity in ipairs(global.stone_annihilation_nodes) do
-        outputInventory = entity.get_output_inventory()
-        pendingInsert = pendingInsert + outputInventory.get_item_count("stone")
+        if entity.valid then
+            outputInventory = entity.get_output_inventory()
+            pendingInsert = pendingInsert + outputInventory.get_item_count("stone")
+        end
     end
 
     pendingRemove = 0
@@ -26,10 +28,12 @@ function on_tick(event)
             break
         end
 
-        outputInventory = entity.get_output_inventory()
-        count = outputInventory.insert({ name = "stone", count = pendingInsert })
-        pendingInsert = pendingInsert - count
-        pendingRemove = pendingRemove + count
+        if entity.valid then
+            outputInventory = entity.get_output_inventory()
+            count = outputInventory.insert({ name = "stone", count = pendingInsert })
+            pendingInsert = pendingInsert - count
+            pendingRemove = pendingRemove + count
+        end
     end
 
     for _, entity in ipairs(global.stone_annihilation_nodes) do
@@ -37,9 +41,11 @@ function on_tick(event)
             break
         end
 
-        outputInventory = entity.get_output_inventory()
-        count = outputInventory.remove({ name = "stone", count = pendingRemove })
-        pendingRemove = pendingRemove - count
+        if entity.valid then
+            outputInventory = entity.get_output_inventory()
+            count = outputInventory.remove({ name = "stone", count = pendingRemove })
+            pendingRemove = pendingRemove - count
+        end
     end
 end
 
