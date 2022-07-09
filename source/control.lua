@@ -1,7 +1,7 @@
-script.on_init(function()
-    global.stone_annihilation_nodes = {}
-    global.stone_formation_nodes = {}
-    global.stone_transport_nodes = {}
+script.on_configuration_changed(function(configuration_changed_data)
+    global.stone_annihilation_nodes = global.stone_annihilation_nodes or {}
+    global.stone_formation_nodes = global.stone_formation_nodes or {}
+    global.stone_transport_nodes = global.stone_transport_nodes or {}
 end)
 
 function on_stone_container_built(event)
