@@ -1,0 +1,30 @@
+{
+  "entity": [
+    [
+      "stone-annihilation-node",
+      "annihilation-chest"
+    ],
+    [
+      "stone-formation-node",
+      "formation-chest"
+    ],
+    [
+      "stone-transport-node",
+      "transport-chest"
+    ]
+  ],
+  "item": [
+    [
+      "stone-annihilation-node",
+      "annihilation-chest"
+    ],
+    [
+      "stone-formation-node",
+      "formation-chest"
+    ],
+    [
+      "stone-transport-node",
+      "transport-chest"
+    ]
+  ]
+}

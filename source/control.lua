@@ -1,13 +1,13 @@
 local transportUnitsPerBelt = 200
 
-function on_stone_container_built(event)
+function on_built_anniform_chest(event)
     target = nil
-    if event.created_entity.name == "stone-annihilation-node" then
-        target = global.stone_annihilation_nodes
-    elseif event.created_entity.name == "stone-formation-node" then
-        target = global.stone_formation_nodes
+    if event.created_entity.name == "annihilation-chest" then
+        target = global.annihilation_chests
+    elseif event.created_entity.name == "formation-chest" then
+        target = global.formation_chests
     else
-        target = global.stone_transport_nodes
+        target = global.transport_chests
     end
     table.insert(target, event.created_entity)
 end
@@ -21,16 +21,16 @@ function on_tick(event)
     end
 
     local annihilationCount = math.ceil(cost / transportUnitsPerBelt)
-    remove(global.stone_transport_nodes, "transport-belt", annihilationCount)
+    remove(global.transport_chests, "transport-belt", annihilationCount)
     global.remaining_transport_units = annihilationCount * transportUnitsPerBelt - cost
 end
 
 function transport(budget, name)
     local stackSize = game.item_prototypes[name].stack_size
-    local count = get_item_count(global.stone_annihilation_nodes, name)
+    local count = get_item_count(global.annihilation_chests, name)
     local formationCount = math.min(count, budget * stackSize / transportUnitsPerBelt)
-    local actualFormationCount = insert(global.stone_formation_nodes, name, formationCount)
-    remove(global.stone_annihilation_nodes, name, actualFormationCount)
+    local actualFormationCount = insert(global.formation_chests, name, formationCount)
+    remove(global.annihilation_chests, name, actualFormationCount)
     return actualFormationCount * transportUnitsPerBelt / stackSize
 end
 
@@ -77,18 +77,18 @@ function remove(containers, name, tryCount)
 end
 
 script.on_configuration_changed(function(configuration_changed_data)
-    global.stone_annihilation_nodes = global.stone_annihilation_nodes or {}
-    global.stone_formation_nodes = global.stone_formation_nodes or {}
-    global.stone_transport_nodes = global.stone_transport_nodes or {}
+    global.annihilation_chests = global.annihilation_chests or global.stone_annihilation_nodes or {}
+    global.formation_chests = global.formation_chests or global.stone_formation_nodes or {}
+    global.transport_chests = global.transport_chests or global.stone_transport_nodes or {}
     global.remaining_transport_units = global.remaining_transport_units or 0
 end)
 
 script.on_event(
         defines.events.on_built_entity,
-        on_stone_container_built,
+        on_built_anniform_chest,
         {
-            { filter = "name", name = "stone-annihilation-node" },
-            { filter = "name", name = "stone-formation-node" },
-            { filter = "name", name = "stone-transport-node" } })
+            { filter = "name", name = "annihilation-chest" },
+            { filter = "name", name = "formation-chest" },
+            { filter = "name", name = "transport-chest" } })
 
 script.on_event(defines.events.on_tick, on_tick)
