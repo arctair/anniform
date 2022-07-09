@@ -1,54 +1,51 @@
 script.on_init(function()
-    global.stone_annihilation_node_entities_by_registration_number = {}
-    global.stone_count_by_unit_number = {}
+    global.stone_annihilation_nodes = {}
+    global.stone_formation_nodes = {}
 end)
 
-function on_stone_annihilation_node_built(event)
-    log('stone annihilation node was built')
-    global.stone_annihilation_node_entities_by_registration_number[script.register_on_entity_destroyed(event.created_entity)] = event.created_entity
-end
-
-function on_entity_destroyed(event)
-    if global.stone_annihilation_node_entities_by_registration_number[event.registration_number] ~= nil then
-        on_stone_annihilation_node_destroyed(event)
+function on_stone_container_built(event)
+    target = nil
+    if event.created_entity.name == "stone-annihilation-node" then
+        target = global.stone_annihilation_nodes
+    else
+        target = global.stone_formation_nodes
     end
-end
-
-function on_stone_annihilation_node_destroyed(event)
-    log('stone annihilation node was destroyed')
+    table.insert(target, event.created_entity)
 end
 
 function on_tick(event)
-    for _, entity in ipairs(global.stone_annihilation_node_entities_by_registration_number) do
-        if entity.valid then
-            on_tick_stone_annihilation_node({ entity = entity })
+    local pendingInsert = 0
+    for _, entity in ipairs(global.stone_annihilation_nodes) do
+        outputInventory = entity.get_output_inventory()
+        pendingInsert = pendingInsert + outputInventory.get_item_count("stone")
+    end
+
+    pendingRemove = 0
+    for _, entity in ipairs(global.stone_formation_nodes) do
+        if pendingInsert == 0 then
+            break
         end
+
+        outputInventory = entity.get_output_inventory()
+        count = outputInventory.insert({ name = "stone", count = pendingInsert })
+        pendingInsert = pendingInsert - count
+        pendingRemove = pendingRemove + count
     end
-end
 
-function on_tick_stone_annihilation_node(event)
-    unit_number = event.entity.unit_number
-    stoneCount = event.entity.get_output_inventory().get_item_count("stone")
-    lastStoneCount = global.stone_count_by_unit_number[unit_number]
-    global.stone_count_by_unit_number[unit_number] = stoneCount
+    for _, entity in ipairs(global.stone_annihilation_nodes) do
+        if pendingRemove == 0 then
+            break
+        end
 
-    if lastStoneCount ~= nil and lastStoneCount ~= stoneCount then
-        on_stone_annihilation_node_stone_count_changed({
-            entity = event.entity,
-            lastStoneCount = lastStoneCount,
-            stoneCount = stoneCount })
+        outputInventory = entity.get_output_inventory()
+        count = outputInventory.remove({ name = "stone", count = pendingRemove })
+        pendingRemove = pendingRemove - count
     end
-end
-
-function on_stone_annihilation_node_stone_count_changed(event)
-    log("stone count for annihilation node " .. event.entity.unit_number .. " changed to " .. stoneCount)
 end
 
 script.on_event(
         defines.events.on_built_entity,
-        on_stone_annihilation_node_built,
-        { { filter = "name", name = "stone-annihilation-node" } })
-
-script.on_event(defines.events.on_entity_destroyed, on_entity_destroyed)
+        on_stone_container_built,
+        { { filter = "name", name = "stone-annihilation-node" }, { filter = "name", name = "stone-formation-node" } })
 
 script.on_event(defines.events.on_tick, on_tick)
