@@ -13,7 +13,7 @@ function on_built_anniform_chest(event)
 end
 
 function on_tick(event)
-    local transportBeltCount = get_item_count(global.stone_transport_nodes, "transport-belt")
+    local transportBeltCount = get_item_count(global.transport_chests, "transport-belt")
     local budget = transportBeltCount * transportUnitsPerBelt
     local cost = -global.remaining_transport_units
     for _, name in ipairs({ "stone", "iron-ore" }) do
