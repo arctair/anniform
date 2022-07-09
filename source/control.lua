@@ -1,50 +1,68 @@
 script.on_init(function()
     global.stone_annihilation_nodes = {}
     global.stone_formation_nodes = {}
+    global.stone_transport_nodes = {}
 end)
 
 function on_stone_container_built(event)
     target = nil
     if event.created_entity.name == "stone-annihilation-node" then
         target = global.stone_annihilation_nodes
-    else
+    elseif event.created_entity.name == "stone-formation-node" then
         target = global.stone_formation_nodes
+    else
+        target = global.stone_transport_nodes
     end
     table.insert(target, event.created_entity)
 end
 
 function on_tick(event)
-    local pendingInsert = 0
-    for _, entity in ipairs(global.stone_annihilation_nodes) do
+    stoneCount = get_item_count(global.stone_annihilation_nodes, "stone")
+    transportBeltCount = get_item_count(global.stone_transport_nodes, "transport-belt")
+    stoneFormationCount = math.min(stoneCount, transportBeltCount)
+    actualStoneFormationCount = insert(global.stone_formation_nodes, "stone", stoneFormationCount)
+    remove(global.stone_annihilation_nodes, "stone", actualStoneFormationCount)
+    remove(global.stone_transport_nodes, "transport-belt", actualStoneFormationCount)
+end
+
+function get_item_count(containers, name)
+    local count = 0
+    for _, entity in ipairs(containers) do
         if entity.valid then
             outputInventory = entity.get_output_inventory()
-            pendingInsert = pendingInsert + outputInventory.get_item_count("stone")
+            count = count + outputInventory.get_item_count(name)
         end
     end
+    return count
+end
 
-    pendingRemove = 0
-    for _, entity in ipairs(global.stone_formation_nodes) do
-        if pendingInsert == 0 then
+function insert(containers, name, tryCount)
+    local actualCount = 0
+    for _, entity in ipairs(containers) do
+        if tryCount == 0 then
             break
         end
 
         if entity.valid then
-            outputInventory = entity.get_output_inventory()
-            count = outputInventory.insert({ name = "stone", count = pendingInsert })
-            pendingInsert = pendingInsert - count
-            pendingRemove = pendingRemove + count
+            local outputInventory = entity.get_output_inventory()
+            local count = outputInventory.insert({ name = name, count = tryCount })
+            tryCount = tryCount - count
+            actualCount = actualCount + count
         end
     end
+    return actualCount
+end
 
-    for _, entity in ipairs(global.stone_annihilation_nodes) do
-        if pendingRemove == 0 then
+function remove(containers, name, tryCount)
+    for _, entity in ipairs(containers) do
+        if tryCount == 0 then
             break
         end
 
         if entity.valid then
-            outputInventory = entity.get_output_inventory()
-            count = outputInventory.remove({ name = "stone", count = pendingRemove })
-            pendingRemove = pendingRemove - count
+            local outputInventory = entity.get_output_inventory()
+            local count = outputInventory.remove({ name = name, count = tryCount })
+            tryCount = tryCount - count
         end
     end
 end
@@ -52,6 +70,9 @@ end
 script.on_event(
         defines.events.on_built_entity,
         on_stone_container_built,
-        { { filter = "name", name = "stone-annihilation-node" }, { filter = "name", name = "stone-formation-node" } })
+        {
+            { filter = "name", name = "stone-annihilation-node" },
+            { filter = "name", name = "stone-formation-node" },
+            { filter = "name", name = "stone-transport-node" } })
 
 script.on_event(defines.events.on_tick, on_tick)

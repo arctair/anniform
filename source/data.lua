@@ -45,3 +45,18 @@ formationNodeRecipe.name = "stone-formation-node"
 formationNodeRecipe.result = "stone-formation-node"
 
 data:extend { formationNodeEntity, formationNodeItem, formationNodeRecipe }
+
+local transportNodeEntity = table.deepcopy(data.raw["container"]["stone-chest"])
+transportNodeEntity.name = "stone-transport-node"
+transportNodeEntity.minable.result = "stone-transport-node"
+
+local transportNodeItem = table.deepcopy(data.raw["item"]["stone-chest"])
+transportNodeItem.name = "stone-transport-node"
+transportNodeItem.place_result = "stone-transport-node"
+
+local transportNodeRecipe = table.deepcopy(data.raw["recipe"]["stone-chest"])
+transportNodeRecipe.enabled = true
+transportNodeRecipe.name = "stone-transport-node"
+transportNodeRecipe.result = "stone-transport-node"
+
+data:extend { transportNodeEntity, transportNodeItem, transportNodeRecipe }
