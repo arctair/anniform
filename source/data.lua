@@ -11,10 +11,10 @@ stoneChestItem.place_result = "stone-chest"
 local stoneChestRecipe = table.deepcopy(data.raw["recipe"]["wooden-chest"])
 stoneChestRecipe.enabled = true
 stoneChestRecipe.name = "stone-chest"
-stoneChestRecipe.ingredients = {{"stone", 10}}
+stoneChestRecipe.ingredients = { { "stone", 10 } }
 stoneChestRecipe.result = "stone-chest"
 
-data:extend{stoneChestEntity, stoneChestItem, stoneChestRecipe}
+data:extend { stoneChestEntity, stoneChestItem, stoneChestRecipe }
 
 local annihilationNodeEntity = table.deepcopy(data.raw["container"]["stone-chest"])
 annihilationNodeEntity.name = "stone-annihilation-node"
@@ -29,7 +29,7 @@ annihilationNodeRecipe.enabled = true
 annihilationNodeRecipe.name = "stone-annihilation-node"
 annihilationNodeRecipe.result = "stone-annihilation-node"
 
-data:extend{ annihilationNodeEntity, annihilationNodeItem, annihilationNodeRecipe }
+data:extend { annihilationNodeEntity, annihilationNodeItem, annihilationNodeRecipe }
 
 local formationNodeEntity = table.deepcopy(data.raw["container"]["stone-chest"])
 formationNodeEntity.name = "stone-formation-node"
@@ -44,4 +44,4 @@ formationNodeRecipe.enabled = true
 formationNodeRecipe.name = "stone-formation-node"
 formationNodeRecipe.result = "stone-formation-node"
 
-data:extend{ formationNodeEntity, formationNodeItem, formationNodeRecipe }
+data:extend { formationNodeEntity, formationNodeItem, formationNodeRecipe }
