@@ -1,5 +1,12 @@
 local transportUnitsPerBelt = 200
 
+function initialize()
+    global.annihilation_chests = global.annihilation_chests or global.stone_annihilation_nodes or {}
+    global.formation_chests = global.formation_chests or global.stone_formation_nodes or {}
+    global.transport_chests = global.transport_chests or global.stone_transport_nodes or {}
+    global.remaining_transport_units = global.remaining_transport_units or 0
+end
+
 function on_built_anniform_chest(event)
     target = nil
     if event.created_entity.name == "annihilation-chest" then
@@ -76,13 +83,8 @@ function remove(containers, name, tryCount)
     end
 end
 
-script.on_configuration_changed(function(configuration_changed_data)
-    global.annihilation_chests = global.annihilation_chests or global.stone_annihilation_nodes or {}
-    global.formation_chests = global.formation_chests or global.stone_formation_nodes or {}
-    global.transport_chests = global.transport_chests or global.stone_transport_nodes or {}
-    global.remaining_transport_units = global.remaining_transport_units or 0
-end)
-
+script.on_init(initialize)
+script.on_configuration_changed(initialize)
 script.on_event(
         defines.events.on_built_entity,
         on_built_anniform_chest,
