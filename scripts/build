@@ -1,0 +1,12 @@
+#!/bin/zsh
+mkdir -p build
+version="0.1.`git rev-list --count HEAD`"
+name="anniform_$version"
+cp -r source build/$name
+cd build
+jq --arg version $version '.version=$version' $name/info.json > $name/info.json.tmp
+diff $name/info.json $name/info.json.tmp
+mv $name/info.json.tmp $name/info.json
+zip -r $name.zip $name
+rm -r $name
+cd -
