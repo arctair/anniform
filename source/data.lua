@@ -2,6 +2,7 @@ local stoneChestEntity = table.deepcopy(data.raw["container"]["wooden-chest"])
 stoneChestEntity.name = "stone-chest"
 stoneChestEntity.inventory_size = 1
 stoneChestEntity.minable.result = "stone-chest"
+stoneChestEntity.minable.mining_particle = "stone-particle"
 
 local stoneChestItem = table.deepcopy(data.raw["item"]["wooden-chest"])
 stoneChestItem.name = "stone-chest"
