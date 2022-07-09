@@ -13,19 +13,21 @@ function on_stone_container_built(event)
 end
 
 function on_tick(event)
-    local stackSize = 50
-
-    local count = get_item_count(global.stone_annihilation_nodes, "stone")
     local transportBeltCount = get_item_count(global.stone_transport_nodes, "transport-belt")
     local budget = transportBeltCount * transportUnitsPerBelt + global.remaining_transport_units
+    local cost = transport_stone(budget) - global.remaining_transport_units
+    local annihilationCount = math.ceil(cost / transportUnitsPerBelt)
+    remove(global.stone_transport_nodes, "transport-belt", annihilationCount)
+    global.remaining_transport_units = annihilationCount * transportUnitsPerBelt - cost
+end
+
+function transport_stone(budget)
+    local stackSize = 50
+    local count = get_item_count(global.stone_annihilation_nodes, "stone")
     local formationCount = math.min(count, budget * stackSize / transportUnitsPerBelt)
     local actualFormationCount = insert(global.stone_formation_nodes, "stone", formationCount)
     remove(global.stone_annihilation_nodes, "stone", actualFormationCount)
-
-    local cost = actualFormationCount * transportUnitsPerBelt / stackSize - global.remaining_transport_units
-    local annihilationCount = math.ceil(cost / transportUnitsPerBelt)
-    global.remaining_transport_units = annihilationCount * transportUnitsPerBelt - cost
-    remove(global.stone_transport_nodes, "transport-belt", annihilationCount)
+    return actualFormationCount * transportUnitsPerBelt / stackSize
 end
 
 function get_item_count(containers, name)
