@@ -15,7 +15,11 @@ end
 function on_tick(event)
     local transportBeltCount = get_item_count(global.stone_transport_nodes, "transport-belt")
     local budget = transportBeltCount * transportUnitsPerBelt + global.remaining_transport_units
-    local cost = transport(budget, "stone") - global.remaining_transport_units
+    local cost = -global.remaining_transport_units
+    for _, name in ipairs({ "stone", "iron-ore" }) do
+        cost = cost + transport(budget - cost, name)
+    end
+
     local annihilationCount = math.ceil(cost / transportUnitsPerBelt)
     remove(global.stone_transport_nodes, "transport-belt", annihilationCount)
     global.remaining_transport_units = annihilationCount * transportUnitsPerBelt - cost
