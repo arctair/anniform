@@ -1,3 +1,5 @@
+local transportUnitsPerBelt = 200
+
 function on_stone_container_built(event)
     target = nil
     if event.created_entity.name == "stone-annihilation-node" then
@@ -12,7 +14,6 @@ end
 
 function on_tick(event)
     local stackSize = 50
-    local transportUnitsPerBelt = 200
 
     local count = get_item_count(global.stone_annihilation_nodes, "stone")
     local transportBeltCount = get_item_count(global.stone_transport_nodes, "transport-belt")
