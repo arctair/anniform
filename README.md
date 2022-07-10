@@ -1,7 +1,6 @@
 # anniform
 
-Anniform harvests singularities blood-free in an undisclosed sector of deep space for our research into high-bandwidth
-material teleportation. Mail us to receive a product catalog for your factory!
+Disentangle your bus.
 
 ## build
 
