@@ -88,9 +88,8 @@ script.on_configuration_changed(initialize)
 script.on_event(
         defines.events.on_built_entity,
         on_built_anniform_chest,
-        {
-            { filter = "name", name = "annihilation-chest" },
-            { filter = "name", name = "formation-chest" },
-            { filter = "name", name = "transport-chest" } })
+        { { filter = "name", name = "annihilation-chest" },
+          { filter = "name", name = "formation-chest" },
+          { filter = "name", name = "transport-chest" } })
 
 script.on_event(defines.events.on_tick, on_tick)
