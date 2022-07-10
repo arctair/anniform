@@ -59,7 +59,9 @@ transportChestEntity.name = "transport-chest"
 transportChestEntity.minable.result = "transport-chest"
 transportChestEntity.icon = "__anniform__/graphics/icons/transport-chest.png"
 transportChestEntity.picture.layers[1].filename = "__anniform__/graphics/entity/transport-chest.png"
-transportChestEntity.picture.layers[1].hr_version = nil
+transportChestEntity.picture.layers[1].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest.png"
+transportChestEntity.picture.layers[2].filename = "__anniform__/graphics/entity/transport-chest-shadow.png"
+transportChestEntity.picture.layers[2].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest-shadow.png"
 
 local transportChestItem = table.deepcopy(data.raw["item"]["stone-chest"])
 transportChestItem.name = "transport-chest"
