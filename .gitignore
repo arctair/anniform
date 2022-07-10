@@ -1,4 +1,5 @@
 build/
+blend/
 
 ## intellij
 # pruned from https://github.com/github/gitignore/raw/main/Global/JetBrains.gitignore
