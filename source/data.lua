@@ -21,7 +21,9 @@ annihilationChestEntity.name = "annihilation-chest"
 annihilationChestEntity.minable.result = "annihilation-chest"
 annihilationChestEntity.icon = "__anniform__/graphics/icons/annihilation-chest.png"
 annihilationChestEntity.picture.layers[1].filename = "__anniform__/graphics/entity/annihilation-chest.png"
-annihilationChestEntity.picture.layers[1].hr_version = nil
+annihilationChestEntity.picture.layers[1].hr_version.filename = "__anniform__/graphics/entity/hr-annihilation-chest.png"
+annihilationChestEntity.picture.layers[2].filename = "__anniform__/graphics/entity/transport-chest-shadow.png"
+annihilationChestEntity.picture.layers[2].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest-shadow.png"
 
 local annihilationChestItem = table.deepcopy(data.raw["item"]["stone-chest"])
 annihilationChestItem.name = "annihilation-chest"
@@ -40,7 +42,9 @@ formationChestEntity.name = "formation-chest"
 formationChestEntity.minable.result = "formation-chest"
 formationChestEntity.icon = "__anniform__/graphics/icons/formation-chest.png"
 formationChestEntity.picture.layers[1].filename = "__anniform__/graphics/entity/formation-chest.png"
-formationChestEntity.picture.layers[1].hr_version = nil
+formationChestEntity.picture.layers[1].hr_version.filename = "__anniform__/graphics/entity/hr-formation-chest.png"
+formationChestEntity.picture.layers[2].filename = "__anniform__/graphics/entity/transport-chest-shadow.png"
+formationChestEntity.picture.layers[2].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest-shadow.png"
 
 local formationChestItem = table.deepcopy(data.raw["item"]["stone-chest"])
 formationChestItem.name = "formation-chest"
