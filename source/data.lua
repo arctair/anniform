@@ -14,9 +14,7 @@ stoneChestRecipe.name = "stone-chest"
 stoneChestRecipe.ingredients = { { "stone", 10 } }
 stoneChestRecipe.result = "stone-chest"
 
-data:extend { stoneChestEntity, stoneChestItem, stoneChestRecipe }
-
-local annihilationChestEntity = table.deepcopy(data.raw["container"]["stone-chest"])
+local annihilationChestEntity = table.deepcopy(stoneChestEntity)
 annihilationChestEntity.name = "annihilation-chest"
 annihilationChestEntity.minable.result = "annihilation-chest"
 annihilationChestEntity.icon = "__anniform__/graphics/icons/annihilation-chest.png"
@@ -25,20 +23,20 @@ annihilationChestEntity.picture.layers[1].hr_version.filename = "__anniform__/gr
 annihilationChestEntity.picture.layers[2].filename = "__anniform__/graphics/entity/transport-chest-shadow.png"
 annihilationChestEntity.picture.layers[2].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest-shadow.png"
 
-local annihilationChestItem = table.deepcopy(data.raw["item"]["stone-chest"])
+local annihilationChestItem = table.deepcopy(stoneChestItem)
 annihilationChestItem.name = "annihilation-chest"
 annihilationChestItem.place_result = "annihilation-chest"
 annihilationChestItem.icon = "__anniform__/graphics/icons/annihilation-chest.png"
 annihilationChestItem.icon_mipmaps = 1
 
-local annihilationChestRecipe = table.deepcopy(data.raw["recipe"]["stone-chest"])
+local annihilationChestRecipe = table.deepcopy(stoneChestRecipe)
 annihilationChestRecipe.enabled = true
 annihilationChestRecipe.name = "annihilation-chest"
 annihilationChestRecipe.result = "annihilation-chest"
 
 data:extend { annihilationChestEntity, annihilationChestItem, annihilationChestRecipe }
 
-local formationChestEntity = table.deepcopy(data.raw["container"]["stone-chest"])
+local formationChestEntity = table.deepcopy(stoneChestEntity)
 formationChestEntity.name = "formation-chest"
 formationChestEntity.minable.result = "formation-chest"
 formationChestEntity.icon = "__anniform__/graphics/icons/formation-chest.png"
@@ -48,19 +46,19 @@ formationChestEntity.picture.layers[1].hr_version.filename = "__anniform__/graph
 formationChestEntity.picture.layers[2].filename = "__anniform__/graphics/entity/transport-chest-shadow.png"
 formationChestEntity.picture.layers[2].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest-shadow.png"
 
-local formationChestItem = table.deepcopy(data.raw["item"]["stone-chest"])
+local formationChestItem = table.deepcopy(stoneChestItem)
 formationChestItem.name = "formation-chest"
 formationChestItem.place_result = "formation-chest"
 formationChestItem.icon = "__anniform__/graphics/icons/formation-chest.png"
 
-local formationChestRecipe = table.deepcopy(data.raw["recipe"]["stone-chest"])
+local formationChestRecipe = table.deepcopy(stoneChestRecipe)
 formationChestRecipe.enabled = true
 formationChestRecipe.name = "formation-chest"
 formationChestRecipe.result = "formation-chest"
 
 data:extend { formationChestEntity, formationChestItem, formationChestRecipe }
 
-local transportChestEntity = table.deepcopy(data.raw["container"]["stone-chest"])
+local transportChestEntity = table.deepcopy(stoneChestEntity)
 transportChestEntity.name = "transport-chest"
 transportChestEntity.minable.result = "transport-chest"
 transportChestEntity.icon = "__anniform__/graphics/icons/transport-chest.png"
@@ -70,12 +68,12 @@ transportChestEntity.picture.layers[1].hr_version.filename = "__anniform__/graph
 transportChestEntity.picture.layers[2].filename = "__anniform__/graphics/entity/transport-chest-shadow.png"
 transportChestEntity.picture.layers[2].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest-shadow.png"
 
-local transportChestItem = table.deepcopy(data.raw["item"]["stone-chest"])
+local transportChestItem = table.deepcopy(stoneChestItem)
 transportChestItem.name = "transport-chest"
 transportChestItem.place_result = "transport-chest"
 transportChestItem.icon = "__anniform__/graphics/icons/transport-chest.png"
 
-local transportChestRecipe = table.deepcopy(data.raw["recipe"]["stone-chest"])
+local transportChestRecipe = table.deepcopy(stoneChestRecipe)
 transportChestRecipe.enabled = true
 transportChestRecipe.name = "transport-chest"
 transportChestRecipe.result = "transport-chest"
