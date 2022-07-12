@@ -1,26 +1,25 @@
 local transportUnitsPerBelt = 200
 
 function initialize()
-    global.annihilation_chests = global.annihilation_chests or global.stone_annihilation_nodes or {}
-    global.formation_chests = global.formation_chests or global.stone_formation_nodes or {}
-    global.transport_chests = global.transport_chests or global.stone_transport_nodes or {}
+    global.containers_by_name = global.containers_by_name or {}
+    global.containers_by_name["annihilation-chest"] = global.containers_by_name["annihilation-chest"] or global.annihilation_chests
+    global.containers_by_name["formation-chest"] = global.containers_by_name["formation-chest"] or global.formation_chests
+    global.containers_by_name["transport-chest"] = global.containers_by_name["transport-chest"] or global.transport_chests
     global.remaining_transport_units = global.remaining_transport_units or 0
 end
 
 function on_built_anniform_chest(event)
-    target = nil
-    if event.created_entity.name == "annihilation-chest" then
-        target = global.annihilation_chests
-    elseif event.created_entity.name == "formation-chest" then
-        target = global.formation_chests
+    target = global.containers_by_name[event.created_entity.name]
+    if target ~= nil then
+        table.insert(target, event.created_entity)
     else
-        target = global.transport_chests
+        global.containers_by_name[event.created_entity.name] = { target }
     end
-    table.insert(target, event.created_entity)
 end
 
 function on_tick(event)
-    local transportBeltCount = get_item_count(global.transport_chests, "transport-belt")
+    transport_chests = global.containers_by_name["transport-chest"]
+    local transportBeltCount = get_item_count(transport_chests, "transport-belt")
     local budget = transportBeltCount * transportUnitsPerBelt
     local cost = -global.remaining_transport_units
     for _, name in ipairs({ "stone", "iron-ore" }) do
@@ -28,16 +27,18 @@ function on_tick(event)
     end
 
     local annihilationCount = math.ceil(cost / transportUnitsPerBelt)
-    remove(global.transport_chests, "transport-belt", annihilationCount)
+    remove(transport_chests, "transport-belt", annihilationCount)
     global.remaining_transport_units = annihilationCount * transportUnitsPerBelt - cost
 end
 
 function transport(budget, name)
+    annihilation_chests = global.containers_by_name["annihilation-chest"]
+    formation_chests = global.containers_by_name["formation-chest"]
     local stackSize = game.item_prototypes[name].stack_size
-    local count = get_item_count(global.annihilation_chests, name)
+    local count = get_item_count(annihilation_chests, name)
     local formationCount = math.min(count, budget * stackSize / transportUnitsPerBelt)
-    local actualFormationCount = insert(global.formation_chests, name, formationCount)
-    remove(global.annihilation_chests, name, actualFormationCount)
+    local actualFormationCount = insert(formation_chests, name, formationCount)
+    remove(annihilation_chests, name, actualFormationCount)
     return actualFormationCount * transportUnitsPerBelt / stackSize
 end
 
