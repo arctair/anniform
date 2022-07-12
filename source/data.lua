@@ -58,24 +58,61 @@ formationChestRecipe.result = "formation-chest"
 
 data:extend { formationChestEntity, formationChestItem, formationChestRecipe }
 
-local transportChestEntity = table.deepcopy(stoneChestEntity)
-transportChestEntity.name = "transport-chest"
-transportChestEntity.minable.result = "transport-chest"
-transportChestEntity.icon = "__anniform__/graphics/icons/transport-chest.png"
-transportChestEntity.icon_mipmaps = 1
-transportChestEntity.picture.layers[1].filename = "__anniform__/graphics/entity/transport-chest.png"
-transportChestEntity.picture.layers[1].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest.png"
-transportChestEntity.picture.layers[2].filename = "__anniform__/graphics/entity/transport-chest-shadow.png"
-transportChestEntity.picture.layers[2].hr_version.filename = "__anniform__/graphics/entity/hr-transport-chest-shadow.png"
+local transportGasFluid = {
+    base_color = {
+        b = 0.22,
+        g = 0.81,
+        r = 0.92,
+    },
+    default_temperature = 25,
+    flow_color = {
+        b = 0.22,
+        g = 0.81,
+        r = 0.92,
+    },
+    heat_capacity = "0.1KJ",
+    icon = "__base__/graphics/icons/fluid/sulfuric-acid.png",
+    icon_mipmaps = 4,
+    icon_size = 64,
+    name = "transport-gas",
+    order = "a[fluid]-f[transport-gas]",
+    type = "fluid"
+}
 
-local transportChestItem = table.deepcopy(stoneChestItem)
-transportChestItem.name = "transport-chest"
-transportChestItem.place_result = "transport-chest"
-transportChestItem.icon = "__anniform__/graphics/icons/transport-chest.png"
+local transportGasRecipe = {
+    category = "chemistry",
+    energy_required = 13.33,
+    ingredients = {
+        {
+            amount = 1,
+            name = "transport-belt",
+            type = "item"
+        },
+        {
+            amount = 50,
+            name = "sulfuric-acid",
+            type = "fluid"
+        }
+    },
+    name = "transport-gas",
+    results = { { amount = 200, name = "transport-gas", type = "fluid" } },
+    subgroup = "fluid-recipes",
+    type = "recipe"
+}
 
-local transportChestRecipe = table.deepcopy(stoneChestRecipe)
-transportChestRecipe.enabled = true
-transportChestRecipe.name = "transport-chest"
-transportChestRecipe.result = "transport-chest"
+data:extend { transportGasFluid, transportGasRecipe }
 
-data:extend { transportChestEntity, transportChestItem, transportChestRecipe }
+local transportEngineEntity = table.deepcopy(data.raw["storage-tank"]["storage-tank"])
+transportEngineEntity.name = "transport-engine"
+transportEngineEntity.minable.result = "transport-engine"
+
+local transportEngineItem = table.deepcopy(data.raw["item"]["storage-tank"])
+transportEngineItem.name = "transport-engine"
+transportEngineItem.place_result = "transport-engine"
+
+local transportEngineRecipe = table.deepcopy(data.raw["recipe"]["storage-tank"])
+transportEngineRecipe.enabled = true
+transportEngineRecipe.name = "transport-engine"
+transportEngineRecipe.result = "transport-engine"
+
+data:extend { transportEngineEntity, transportEngineItem, transportEngineRecipe }
