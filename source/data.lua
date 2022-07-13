@@ -105,9 +105,26 @@ data:extend { transportGasFluid, transportGasRecipe }
 local transportEngineEntity = table.deepcopy(data.raw["storage-tank"]["storage-tank"])
 transportEngineEntity.name = "transport-engine"
 transportEngineEntity.minable.result = "transport-engine"
+transportEngineEntity.icon = "__anniform__/graphics/icons/transport-engine.png"
+transportEngineEntity.icon_mipmaps = 1
+transportEngineEntity.pictures.picture.sheets[1].filename = "__anniform__/graphics/entity/transport-engine/transport-engine.png"
+transportEngineEntity.pictures.picture.sheets[1].frames = 1
+transportEngineEntity.pictures.picture.sheets[1].shift = { 0, 0 }
+transportEngineEntity.pictures.picture.sheets[1].hr_version.filename = "__anniform__/graphics/entity/transport-engine/hr-transport-engine.png"
+transportEngineEntity.pictures.picture.sheets[1].hr_version.frames = 1
+transportEngineEntity.pictures.picture.sheets[1].hr_version.shift = { 0, 0 }
+
+transportEngineEntity.pictures.picture.sheets[2].filename = "__anniform__/graphics/entity/transport-engine/transport-engine-shadow.png"
+transportEngineEntity.pictures.picture.sheets[2].frames = 1
+transportEngineEntity.pictures.picture.sheets[2].shift = { 0, 0 }
+transportEngineEntity.pictures.picture.sheets[2].hr_version.filename = "__anniform__/graphics/entity/transport-engine/hr-transport-engine-shadow.png"
+transportEngineEntity.pictures.picture.sheets[2].hr_version.frames = 1
+transportEngineEntity.pictures.picture.sheets[2].hr_version.shift = { 0, 0 }
 
 local transportEngineItem = table.deepcopy(data.raw["item"]["storage-tank"])
 transportEngineItem.name = "transport-engine"
+transportEngineItem.icon = "__anniform__/graphics/icons/transport-engine.png"
+transportEngineItem.icon_mipmaps = 1
 transportEngineItem.place_result = "transport-engine"
 
 local transportEngineRecipe = table.deepcopy(data.raw["recipe"]["storage-tank"])
