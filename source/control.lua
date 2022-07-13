@@ -5,7 +5,6 @@ function initialize()
     global.containers_by_name["annihilation-chest"] = global.containers_by_name["annihilation-chest"] or global.annihilation_chests
     global.containers_by_name["formation-chest"] = global.containers_by_name["formation-chest"] or global.formation_chests
     global.containers_by_name["transport-chest"] = global.containers_by_name["transport-chest"] or global.transport_chests
-    global.remaining_transport_units = global.remaining_transport_units or 0
 end
 
 function on_built_anniform_chest(event)
@@ -20,12 +19,11 @@ end
 function on_tick(event)
     transport_engines = global.containers_by_name["transport-engine"] or {}
     local budget = get_fluid_count(transport_engines, "transport-gas")
-    local cost = -global.remaining_transport_units
+    local cost = 0
     for _, name in ipairs({ "stone", "iron-ore" }) do
         cost = cost + transport(budget - cost, name)
     end
     remove_fluid(transport_engines, "transport-gas", cost)
-    global.remaining_transport_units = 0
 end
 
 function get_fluid_count(containers, name)
