@@ -1,0 +1,2 @@
+#!/bin/zsh
+rsync -avr yagni:anniform-blend/ blend/ 
